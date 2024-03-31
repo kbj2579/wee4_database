@@ -44,6 +44,12 @@ void destroy(Database& database);
 // 데이터베이스의 리스트를 출력한다.
 void list(Database& database);
 
-void checkType(Database& database, Entry* entry);
+void initArray(Array& array);
+
+void listArray(Array& array);
+
+bool exception_handling();
+
+bool exception_handling(std::string str);
 
 #endif
