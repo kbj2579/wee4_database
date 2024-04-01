@@ -1,8 +1,9 @@
-실행 명렁어 //
-git clone https://github.com/kbj2579/week4_database.git database  //
-cd database //
-mingw32-make //
-./main.exe //
+실행 명령어  
+git clone https://github.com/kbj2579/week4_database.git database  
+cd database   
+mingw32-make  
+./main.exe   
+
 
 
 ///////////
