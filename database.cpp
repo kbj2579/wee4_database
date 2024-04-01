@@ -40,7 +40,7 @@ Entry* create(Type type, std::string key, void* value) {
 void init(Database& database) {
 	database.size = 0;
 	database.db_array = new Entry[1];
-	database.arr.size = 0; 
+	database.arr.size = 0;
 	database.arr.items = nullptr;
 }
 
@@ -66,7 +66,7 @@ void add(Database& database, Entry* entry) {
 	delete[] database.db_array;
 	database.db_array = new_array;
 	database.size++;
-}	
+}
 
 // 데이터베이스에서 키에 해당하는 엔트리를 찾는다.
 Entry* get(Database& database, std::string& key) {
@@ -97,12 +97,12 @@ void remove(Database& database, std::string& key) {
 			key_index = i;
 		}
 	}
-	
+
 	// key_index를 못찾았을경우, 문구출력하고 return
 	if (key_index == -1) {
 		std::cout << "invalid command" << '\n';
 	}
-	
+
 	for (int j = 0; j < key_index; j++) { // 해당하는 key와 value 를 제거하고, 새로 동적할당한다.
 		new_array[j] = database.db_array[j];
 	}
@@ -127,7 +127,7 @@ void listArray(Array& array);
 void list(Database& database) {
 	for (int i = 0; i < database.size; i++) {
 		std::cout << database.db_array[i].key << ": ";
-		
+
 		// value의 타입을 확인
 		if (database.db_array[i].type == INT) {
 			std::cout << *(int*)(database.db_array[i].value);
@@ -152,73 +152,74 @@ void list(Database& database) {
 bool exception_handling();
 bool exception_handling(std::string str);
 // value 타입이 array 일때 초기화하고, 필요하다면 중첩배열을 만든다.
-void initArray(Array& array) { 
+void initArray(Array* array) {
 	int size;
 	std::string typeInput;
 	std::cout << "type (int, double, string, array): ";
 	std::cin >> typeInput;
 	if (typeInput == "int") {
-		array.type = INT;
+		array->type = INT;
 		std::cout << "size: ";
 		std::cin >> size;
 		if (exception_handling("size")) return; // 예외처리
-		array.size = size;
-		array.items = new int[array.size];
-		for (int i = 0; i < array.size; i++) {
+		array->size = size;
+		array->items = new int[array->size];
+		for (int i = 0; i < array->size; i++) {
 			std::cout << "item[" << i << "]: ";
-			std::cin >> static_cast<int*>(array.items)[i];
+			std::cin >> static_cast<int*>(array->items)[i];
 			if (exception_handling(typeInput)) return; // 예외처리
 		}
 	}
 	else if (typeInput == "double") {
-		array.type = DOUBLE;
+		array->type = DOUBLE;
 		std::cout << "size: ";
 		std::cin >> size;
 		if (exception_handling("size")) return; // 예외처리
-		array.size = size;
-		array.items = new double[array.size];
-		for (int i = 0; i < array.size; i++) {
+		array->size = size;
+		array->items = new double[array->size];
+		for (int i = 0; i < array->size; i++) {
 			std::cout << "item[" << i << "]: ";
-			std::cin >> static_cast<double*>(array.items)[i];
+			std::cin >> static_cast<double*>(array->items)[i];
 			if (exception_handling(typeInput)) return; // 예외처리
 		}
 	}
 	else if (typeInput == "string") {
-		array.type = STRING;
+		array->type = STRING;
 		std::cout << "size: ";
 		std::cin >> size;
 		if (exception_handling("size")) return; // 예외처리
-		array.size = size;
-		array.items = new std::string[array.size];
+		array->size = size;
+		array->items = new std::string[array->size];
 		std::cin.ignore();
-		for (int i = 0; i < array.size; i++) {
+		for (int i = 0; i < array->size; i++) {
 			std::cout << "item[" << i << "]: ";
-			std::getline(std::cin, static_cast<std::string*>(array.items)[i]);
+			std::getline(std::cin, static_cast<std::string*>(array->items)[i]);
 			if (exception_handling(typeInput)) return; // 예외처리
 		}
 	}
 	else if (typeInput == "array") {
-		array.type = ARRAY;
+		array->type = ARRAY;
 		std::cout << "size: ";
 		std::cin >> size;
 		if (exception_handling(typeInput)) return; // 예외처리
-		array.size = size;
-		array.items = new Array[array.size];
-		for (int i = 0; i < array.size; i++) {
+		array->size = size;
+		array->items = new Array[array->size];
+		for (int i = 0; i < array->size; i++) {
 			std::cout << "item[" << i << "]: ";
-			initArray(static_cast<Array*>(array.items)[i]);
+			Array* item = &(static_cast<Array*>(array->items)[i]);
+			initArray(item);
 			if (exception_handling(typeInput)) return; // 예외처리
 		}
 	}
 	else {
 		std::cout << "invalid type" << '\n';
-		array.size = 0; // 배열 크기 0으로 설정
-			array.items = nullptr; // 배열 초기화
-		}
+		array->size = 0; // 배열 크기 0으로 설정
+		array->items = nullptr; // 배열 초기화
+	}
 }
 
 // 데이터 베이스 list 를 출력할때 해당 타입이 array 일때 이를 출력한다.
-void listArray(Array& array) { 
+void listArray(Array& array) {
 	std::cout << "[";
 	for (int i = 0; i < array.size; i++) {
 		if (array.type == INT) {
@@ -236,8 +237,8 @@ void listArray(Array& array) {
 		else {
 			std::cout << "invalid command";
 		}
-		
-		if(i != array.size - 1) std::cout << ", ";
+
+		if (i != array.size - 1) std::cout << ", ";
 	}
 	std::cout << "]";
 }

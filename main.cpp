@@ -10,14 +10,12 @@ int main() {
 	double dou_value;
 	void* value = &int_value;
 
-
 	Database database;
 	Entry entry;
 	Entry* entry_p = &entry;
 	Type type = INT;
-	Array arr;
 	init(database);
-	
+
 
 	while (true) {
 		std::cout << commandType;
@@ -43,7 +41,7 @@ int main() {
 				entry_p = create(type, key, value);
 			}
 			else if (typeInput == "double") { // 타입이 double인 경우
-				type = DOUBLE; 
+				type = DOUBLE;
 				std::cin >> dou_value;
 				if (exception_handling()) continue; // 예외처리
 				value = &dou_value;
@@ -59,23 +57,28 @@ int main() {
 				entry_p = create(type, key, value);
 			}
 			else if (typeInput == "array") {	// 타입이 array인 경우
-				initArray(arr);
-				entry_p = create(ARRAY, key, &arr);
+				Array* arr_p = new Array;
+				arr_p->size = 0;
+				arr_p->type = INT;
+				arr_p->items = nullptr;
+				initArray(arr_p);
+				value = static_cast<Array*>(arr_p);
+				entry_p = create(ARRAY, key, value);
 			}
 			else { // 주어지지 않은 type인 경우
 				std::cout << "invalid type" << '\n';
 				continue;
 			}
-			
-			
+
+
 			if (database.size == 0) { // database의 크기가 0인경우 
 				database.db_array[0] = *entry_p;
-				database.size++;  
-			} 
+				database.size++;
+			}
 			else { // database의 크기가 1 이상인 경우
 				add(database, entry_p);
 			}
-			  	
+
 		}
 		else if (command == "get") {
 			std::cout << "key: ";
@@ -103,7 +106,7 @@ int main() {
 			else { // key에 해당하는 값을 못찾으면 문구출력
 				std::cout << "not found" << '\n';
 			}
-			
+
 		}
 		else if (command == "del") {
 			std::cout << "key: ";

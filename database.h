@@ -44,7 +44,7 @@ void destroy(Database& database);
 // 데이터베이스의 리스트를 출력한다.
 void list(Database& database);
 
-void initArray(Array& array);
+void initArray(Array* array);
 
 void listArray(Array& array);
 
