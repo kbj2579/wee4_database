@@ -103,6 +103,11 @@ void remove(Database& database, std::string& key) {
 		std::cout << "invalid command" << '\n';
 	}
 
+	if (database.size == 1 && key_index == 0) {
+		delete[] database.db_array;
+		init(database);
+		return;
+	}
 	for (int j = 0; j < key_index; j++) { // 해당하는 key와 value 를 제거하고, 새로 동적할당한다.
 		new_array[j] = database.db_array[j];
 	}

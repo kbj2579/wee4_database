@@ -14,8 +14,8 @@ int main() {
 	Entry entry;
 	Entry* entry_p = &entry;
 	Type type = INT;
-	init(database);
 
+	init(database);
 
 	while (true) {
 		std::cout << commandType;
@@ -115,7 +115,7 @@ int main() {
 		}
 		else if (command == "exit") {
 			destroy(database);
-			exit(0);
+			exit(1);
 		}
 		else {
 			std::cout << "invalid command" << '\n';
