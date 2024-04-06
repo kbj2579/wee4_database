@@ -275,3 +275,26 @@ bool exception_handling(std::string str) {
 
 
 
+// 동적 할당된 배열의 메모리를 해제 하는 함수
+void destroyArray(Array& array) {
+	if (array.type == INT) {
+		delete[] static_cast<int*>(array.items);
+	}
+	else if (array.type == DOUBLE) {
+		delete[] static_cast<double*>(array.items);
+	}
+	else if (array.type == STRING) {
+		std::string* str_array = static_cast<std::string*>(array.items);
+		delete[] str_array;
+	}
+	else if (array.type == ARRAY) {
+		Array* nested_array = static_cast<Array*>(array.items);
+		for (int i = 0; i < array.size; i++) {
+			destroyArray(nested_array[i]);
+		}
+		delete[] nested_array;
+	}
+}
+
+
+
