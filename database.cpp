@@ -119,11 +119,16 @@ void remove(Database& database, std::string& key) {
 	database.size--;
 }
 
+void destroyArray(Array& array);
 // 데이터베이스를 해제한다.
 void destroy(Database& database) {
-	if (database.size != 0) {
-		delete[] database.db_array;
+	for (int i = 0; i < database.size; ++i) {
+		if (database.db_array[i].type == ARRAY) {
+			Array* arr = static_cast<Array*>(database.db_array[i].value);
+			destroyArray(*arr);
+		}
 	}
+	delete[] database.db_array;
 }
 
 
