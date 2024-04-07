@@ -44,19 +44,15 @@ void destroy(Database& database);
 // 데이터베이스의 리스트를 출력한다.
 void list(Database& database);
 
-// 배열을 생성한다.
 void initArray(Array* array);
 
-// 배열을 출력한다.
 void listArray(Array& array);
 
-// 잘못된 입력값에 대한 예외처리
 bool exception_handling();
 
 bool exception_handling(std::string str);
 
 // 동적 할당된 배열의 메모리를 해제 하는 함수
 void destroyArray(Array& array);
-
 
 #endif

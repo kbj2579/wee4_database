@@ -30,6 +30,10 @@ Entry* create(Type type, std::string key, void* value) {
 		std::string* str_value = static_cast<std::string*>(value);
 		entry->value = new std::string(*str_value);
 	}
+	else if (type == ARRAY) {
+		Array* array = static_cast<Array*>(value);
+		entry->value = new Array(*array);
+	}
 	else { // 문자열이 아닌경우
 		entry->value = value;
 	}
@@ -130,7 +134,6 @@ void destroy(Database& database) {
 	}
 	delete[] database.db_array;
 }
-
 
 void listArray(Array& array);
 // 데이터베이스에 리스트를 출력한다.
@@ -274,11 +277,6 @@ bool exception_handling(std::string str) {
 	}
 	return false;
 }
-
-
-
-
-
 
 // 동적 할당된 배열의 메모리를 해제 하는 함수
 void destroyArray(Array& array) {

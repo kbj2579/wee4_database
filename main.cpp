@@ -13,6 +13,7 @@ int main() {
 	Entry entry;
 	Entry* entry_p = &entry;
 	Type type = INT;
+
 	init(database);
 
 	while (true) {
@@ -51,7 +52,7 @@ int main() {
 				std::string str_input;
 				std::getline(std::cin, str_input);
 				if (exception_handling()) continue; // 예외처리
-				value = &str_input; // 문자열을 동적할당하여 value에 저장
+				value = new std::string(str_input); // 문자열을 동적할당하여 value에 저장
 				entry_p = create(type, key, value);
 			}
 			else if (typeInput == "array") {	// 타입이 array인 경우
@@ -60,7 +61,7 @@ int main() {
 				arr_p->type = INT;
 				arr_p->items = nullptr;
 				initArray(arr_p);
-				value = static_cast<Array*>(arr_p);
+				value = new Array(*arr_p);
 				entry_p = create(ARRAY, key, value);
 			}
 			else { // 주어지지 않은 type인 경우
